@@ -6,7 +6,7 @@ const express        = require('express')
 const app            = express()
 
 const imageRecognitionUrl = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
-const imagePath           = "/home/pi/git/image_recognition/scripts/img.jpg"
+const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
 let currentProbabilities  = undefined
 let imageRecognitionReq   =
 {
