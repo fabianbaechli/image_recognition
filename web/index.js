@@ -33,7 +33,7 @@ const requestGoogleApi = () => {
 
   xhr.onreadystatechange = function() {
     if (xhr.status === 200 && xhr.readyState === 4) {
-      console.log(JSON.parse(xhr.responseText).responses[0].labelAnnotations)
+      return console.log(JSON.parse(xhr.responseText).responses[0].labelAnnotations)
     }
   }
   xhr.send(JSON.stringify(imageRecognitionReq))
@@ -41,7 +41,7 @@ const requestGoogleApi = () => {
 
 setInterval(() => {
   imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
-  requestGoogleApi()
+  currentProbabilities = requestGoogleApi()
 }, 5000)
 
 app.get("/current_image", (req, res) => {
