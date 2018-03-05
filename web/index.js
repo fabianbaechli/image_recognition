@@ -42,7 +42,7 @@ const requestGoogleApi = () => {
 setInterval(() => {
   imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
   requestGoogleApi()
-}, 1000)
+}, 5000)
 
 app.get("/current_image", (req, res) => {
   res.sendFile(imagePath)
