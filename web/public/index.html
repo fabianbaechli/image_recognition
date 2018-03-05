@@ -1,0 +1,89 @@
+<html>
+
+<head>
+  <title>Image Recognition</title>
+  <meta charset="utf-8">
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script src="script.js"></script>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="./assets/theme/materialize/js/materialize.js"></script>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="./assets/theme/materialize/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="./assets/theme/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body>
+  <div class="container">
+    <br>
+
+    <div class="row">
+      <div class="col s12 center">
+        <h4>Raspberry Pi - Image Recognition</h4>
+
+        <h5>Connection State</h5>
+        <div class="card-panel grey lighten-3">
+          unknwn
+        </div>
+        <br>
+
+        <h5>Results</h5>
+        <button class="btn waves-effect waves-light light-blue lighten-2" onclick="sendMessage()">Analyze
+            <i class="material-icons right">camera</i>
+        </button>
+
+        <br>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m2 l2">
+        Dog
+      </div>
+      <div class="col s8 m9 l9">
+        <div class="progress">
+          <div class="determinate" style="width: 98%"></div>
+        </div>
+        <br><br>
+      </div>
+      <div class="col s1 m1 l1">
+        98%
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s3 m2 l2">
+        Grassland
+      </div>
+      <div class="col s8 m9 l9">
+        <div class="progress">
+          <div class="determinate" style="width: 70%"></div>
+        </div>
+        <br><br>
+      </div>
+      <div class="col s1 m1 l1">
+        70%
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 center">
+        <h5>Current Image</h5>
+      </div>
+    </div>
+  </div>
+
+  <img src="?/current_image" class="responsive-img">
+  <img src="img/src.jpg" class="responsive-img">
+
+</body>
+
+</html>
