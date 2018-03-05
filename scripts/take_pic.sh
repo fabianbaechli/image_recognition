@@ -1,5 +1,5 @@
 while true
 do
-    raspistill -o img.jpg
+    raspistill -o image.jpg
     sleep 5
 done
