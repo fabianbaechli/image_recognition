@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "base64-img": "^1.0.4",
-    "body-parser": "^1.18.2"
+    "body-parser": "^1.18.2",
+    "fs": "0.0.1-security",
+    "xmlhttprequest": "^1.8.0"
   }
 }
