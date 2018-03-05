@@ -21,7 +21,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 </head>
 
-<body>
+<body onload="analyzeImage()">
   <div class="container">
     <br>
 
@@ -30,13 +30,11 @@
         <h4>Raspberry Pi - Image Recognition</h4>
 
         <h5>Connection State</h5>
-        <div class="card-panel grey lighten-3">
-          unknwn
-        </div>
+        <div name="placeholder_state" id="placeholder_state"></div>
         <br>
 
         <h5>Results</h5>
-        <button class="btn waves-effect waves-light light-blue lighten-2" onclick="sendMessage()">Analyze
+        <button class="btn waves-effect waves-light light-blue lighten-2" onclick="analyzeImage()">Analyze
             <i class="material-icons right">camera</i>
         </button>
 
@@ -44,45 +42,16 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col s3 m2 l2">
-        Dog
-      </div>
-      <div class="col s8 m9 l9">
-        <div class="progress">
-          <div class="determinate" style="width: 98%"></div>
-        </div>
-        <br><br>
-      </div>
-      <div class="col s1 m1 l1">
-        98%
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col s3 m2 l2">
-        Grassland
-      </div>
-      <div class="col s8 m9 l9">
-        <div class="progress">
-          <div class="determinate" style="width: 70%"></div>
-        </div>
-        <br><br>
-      </div>
-      <div class="col s1 m1 l1">
-        70%
-      </div>
-    </div>
+    <div name="placeholder_probabilities" id="placeholder_probabilities"></div>
 
     <div class="row">
       <div class="col s12 center">
-        <h5>Current Image</h5>
+        <h5>Analyzed Image</h5>
       </div>
     </div>
   </div>
 
-  <img src="?/current_image" class="responsive-img">
-  <img src="img/src.jpg" class="responsive-img">
+  <div name="placeholder_img" id="placeholder_img"></div>
 
 </body>
 
