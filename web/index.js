@@ -5,7 +5,8 @@ const bodyParser     = require('body-parser')
 const express        = require('express')
 const app            = express()
 
-const imageRecognitionUrl = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
+const imageRecognitionUrl =
+  "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
 const imagePath           = "/Users/Fabian/Downloads/tersius-van-rhyn-228779.jpg"
 let currentProbabilities  = undefined
 let imageRecognitionReq   =
