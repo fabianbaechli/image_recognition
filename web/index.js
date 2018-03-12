@@ -7,7 +7,9 @@ const app            = express()
 
 const imageRecognitionUrl =
   "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
-const imagePath           = "/Users/Fabian/Downloads/tersius-van-rhyn-228779.jpg"
+//const imagePath           = "/Users/Fabian/Downloads/tersius-van-rhyn-228779.jpg"
+const imagePath           = "../../scripts/image.jpg"
+
 let currentProbabilities  = undefined
 let imageRecognitionReq   =
 {
@@ -40,14 +42,14 @@ const requestGoogleApi = (callback) => {
   xhr.send(JSON.stringify(imageRecognitionReq))
 }
 
-setInterval(() => {
+//setInterval(() => {
   imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
   requestGoogleApi((response) => {
     currentProbabilities = response
     console.log(currentProbabilities)
   })
 
-}, 5000)
+//}, 5000)
 
 app.get("/current_image", (req, res) => {
   res.sendFile(imagePath)
