@@ -5,7 +5,7 @@ function analyzeImage() {
   document.getElementById("placeholder_state").innerHTML = '<div class="card-panel grey lighten-3">Server Unaviable!</div>'
   document.getElementById("placeholder_img").innerHTML = ''
 
-  backendGet("http://localhost:8080/current_probabilities", (response) => {
+  backendGet("http://raspi.local:8080/current_probabilities", (response) => {
     console.log('stringifed: ' + JSON.stringify(response))
 
     var data = response.current_probabilities
@@ -38,7 +38,7 @@ function analyzeImage() {
       document.getElementById("placeholder_probabilities").innerHTML = html
 
       // image
-      document.getElementById("placeholder_img").innerHTML = '<img src="http://localhost:8080/current_image" class="responsive-img">'
+      document.getElementById("placeholder_img").innerHTML = '<img src="http://raspi.local:8080/current_image" class="responsive-img">'
     }
 
   })
