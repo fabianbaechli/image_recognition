@@ -1,4 +1,4 @@
-# image recognition
+# Image recognition
 
 # Team members
 Fabian Bächli, Igor Cetkovic, Yvo Keller
@@ -52,3 +52,15 @@ POST Content with 64base coded image string:
   ]
 }
 ```
+
+## Switching Consoles in Raspbian
+
+To be able to run the node Server in the background we used the following:
+
+Press ctrl+f1-f12
+
+It will open a new console where you can start a application and let it run in the background while you are working on Panel F1.
+
+
+
+
