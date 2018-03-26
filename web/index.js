@@ -7,14 +7,12 @@ const app            = express()
 const ws             = require('express-ws')(app)
 const nonce          = require('nonce')
 
-const ws_connections = []
-let interval         = undefined
-
 const imageRecognitionUrl =
   "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
-//const imagePath           = "/Users/Fabian/Downloads/tersius-van-rhyn-228779.jpg"
 const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
 
+let ws_connections = []
+let interval         = undefined
 let currentProbabilities  = undefined
 let imageRecognitionReq   =
 {
@@ -69,7 +67,7 @@ app.post('/start_interval', (req, res) => {
     requestGoogleApi((response) => {
       currentProbabilities = response
       ws_connections.forEach(connection => {
-        connection.ws.send(JSON.stringify({
+        connection.websocket.send(JSON.stringify({
           success: true,
           current_probabilities: currentProbabilities
         }))
