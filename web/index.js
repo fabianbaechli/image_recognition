@@ -4,6 +4,11 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 const bodyParser     = require('body-parser')
 const express        = require('express')
 const app            = express()
+const ws             = require('express-ws')(app)
+const nonce          = require('nonce')
+
+const ws_connections = []
+let interval         = undefined
 
 const imageRecognitionUrl =
   "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
@@ -42,25 +47,41 @@ const requestGoogleApi = (callback) => {
   xhr.send(JSON.stringify(imageRecognitionReq))
 }
 
-setInterval(() => {
-  imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
-  requestGoogleApi((response) => {
-    currentProbabilities = response
-    console.log(currentProbabilities)
-  })
+app.ws('/websocket', (ws, res) => {
+  let wsId = nonce()
+  ws_connections.push({websocket: ws, id: nonce})
 
-}, 5000)
+  ws.on('close', () => {
+    // filters out the disconnected socket
+    ws_connections = ws_connections.filter(connection => {
+      connection.id != wsId
+    })
+  })
+})
 
 app.get("/current_image", (req, res) => {
   res.sendFile(imagePath)
 })
 
-app.get("/current_probabilities", (req, res) => {
-  if (currentProbabilities !== undefined) {
-    res.send({success: true, current_probabilities: currentProbabilities})
-  } else {
-    res.send({success: false, current_probabilities: undefined})
-  }
+app.post('/start_interval', (req, res) => {
+  interval = setInterval(() => {
+    imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
+    requestGoogleApi((response) => {
+      currentProbabilities = response
+      ws_connections.forEach(connection => {
+        connection.ws.send(JSON.stringify({
+          success: true,
+          current_probabilities: currentProbabilities
+        }))
+      })
+      console.log(currentProbabilities)
+    })
+  }, 5000)
+})
+
+app.post('/stop_interval', (req, res) => {
+  clearInterval(interval)
+  res.send({ok: true})
 })
 
 app.listen(8080, () => {
