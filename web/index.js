@@ -63,23 +63,28 @@ app.get("/current_image", (req, res) => {
 })
 
 app.post('/start_interval', (req, res) => {
+  analyze()
+
   interval = setInterval(() => {
-    imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
-    requestGoogleApi((response) => {
-      currentProbabilities = response
-
-      ws_connections.forEach(connection => {
-        connection.websocket.send(JSON.stringify({
-          success: true,
-          current_probabilities: currentProbabilities
-        }))
-      })
-
-      console.log(currentProbabilities)
-    })
-  }, 8000)
+    analyze()
+  }, 5000)
   res.send({ok: true})
 })
+
+function analyze(){
+  imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
+
+  requestGoogleApi((response) => {
+    currentProbabilities = response
+    ws_connections.forEach(connection => {
+      connection.websocket.send(JSON.stringify({
+        success: true,
+        current_probabilities: currentProbabilities
+      }))
+    })
+    console.log(currentProbabilities)
+  })
+}
 
 app.post('/stop_interval', (req, res) => {
   clearInterval(interval)
