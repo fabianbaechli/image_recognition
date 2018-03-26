@@ -29,6 +29,17 @@
       <div class="col s12 center">
         <h4>Raspberry Pi - Image Recognition</h4>
 
+        <button id="start" class="btn waves-effect waves-light green lighten-2" onclick="startRecognition()">Start
+            <i class="material-icons right">play_arrow</i>
+        </button>
+
+        <button id="stop" class="btn waves-effect waves-light red lighten-2" style="display: none;" onclick="stopRecognition()">Stop
+            <i class="material-icons right">pause</i>
+        </button>
+
+        <br>
+        <br>
+
         <h5>Connection State</h5>
         <div name="placeholder_state" id="placeholder_state"></div>
         <br>

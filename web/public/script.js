@@ -1,5 +1,18 @@
 const backendURL = window.location.host
 
+const protocol = "ws://"
+const ws = new WebSocket(protocol + backendURL + "/websocket", 'echo-protocol');
+
+ws.onopen = () => {
+  console.log("ws open")
+
+  ws.onmessage = (event) => {
+    data = JSON.parse(event.data);
+
+    console.log('Data: ' + data)
+  }
+}
+
 function analyzeImage() {
   // server unaviable, overwrite if not
   document.getElementById("placeholder_state").innerHTML = '<div class="card-panel grey lighten-3">Server Unaviable!</div>'
@@ -38,9 +51,34 @@ function analyzeImage() {
       document.getElementById("placeholder_probabilities").innerHTML = html
 
       // image
-      document.getElementById("placeholder_img").innerHTML = '<img src="http://raspi.local:8080/current_image" class="responsive-img">'
+      document.getElementById("placeholder_img").innerHTML = '<img src="http://' + backendURL + '/current_image" class="responsive-img">'
     }
 
+  })
+}
+
+function startRecognition(){
+
+  backendPost("/start_interval", {}, (response) => {
+    console.log('started interval! ' + response)
+
+    document.getElementById("start").style.display = 'none';
+    document.getElementById("stop").style.display = 'inline';
+
+    Materialize.toast("Started Recognition. New results will be loaded every five seconds.", 4000);
+  })
+
+}
+
+function stopRecognition(){
+
+  backendPost("/stop_interval", {}, (response) => {
+    console.log(response)
+
+    document.getElementById("stop").style.display = 'none';
+    document.getElementById("start").style.display = 'inline';
+
+    Materialize.toast("Stopped Recognition.", 4000);
   })
 }
 
