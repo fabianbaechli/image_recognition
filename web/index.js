@@ -9,8 +9,8 @@ const nonce          = require('nonce')
 
 const imageRecognitionUrl =
   "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
-//const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
-const imagePath           = "/Users/yvokeller/Desktop/img.png"
+const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
+//const imagePath           = "/Users/yvokeller/Desktop/img.png"
 
 let ws_connections = []
 let interval         = undefined
@@ -77,7 +77,7 @@ app.post('/start_interval', (req, res) => {
 
       console.log(currentProbabilities)
     })
-  }, 5000)
+  }, 8000)
   res.send({ok: true})
 })
 
