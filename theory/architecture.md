@@ -1,5 +1,5 @@
 ## Architecture
-### Necessary components
+### Necessary components
 - Memory
   - Code segment: TODO: find infos
   - Data segment: TODO: find infos
