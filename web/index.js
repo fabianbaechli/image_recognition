@@ -9,8 +9,8 @@ const nonce          = require('nonce')
 
 const imageRecognitionUrl =
   "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB5WVcfCzsxhCRfh34jTiubDyEOnP5pXYc"
-//const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
-const imagePath           = "/Users/yvokeller/Desktop/img.png"
+const imagePath           = "/home/pi/git/image_recognition/scripts/image.jpg"
+//const imagePath           = "/Users/yvokeller/Desktop/img.png"
 
 let ws_connections = []
 let interval              = undefined
@@ -64,25 +64,28 @@ app.get("/current_image", (req, res) => {
 
 app.post('/start_interval', (req, res) => {
   if (interval === undefined) {
-    interval = setInterval(() => {
-      imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
-      requestGoogleApi((response) => {
-        currentProbabilities = response
-
-        ws_connections.forEach(connection => {
-          connection.websocket.send(JSON.stringify({
-            success: true,
-            current_probabilities: currentProbabilities
-          }))
-        })
-        console.log(currentProbabilities)
-      })
+    analyze()
     }, 5000)
     res.send({ok: true})
   } else {
     res.send({ok: false, error_message: "interval already running"})
   }
 })
+
+function analyze(){
+  imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
+
+  requestGoogleApi((response) => {
+    currentProbabilities = response
+    ws_connections.forEach(connection => {
+      connection.websocket.send(JSON.stringify({
+        success: true,
+        current_probabilities: currentProbabilities
+      }))
+    })
+    console.log(currentProbabilities)
+  })
+}
 
 app.post('/stop_interval', (req, res) => {
   clearInterval(interval)

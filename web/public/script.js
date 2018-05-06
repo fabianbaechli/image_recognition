@@ -6,22 +6,11 @@ const ws = new WebSocket(protocol + backendURL + "/websocket", 'echo-protocol');
 ws.onopen = () => {
   console.log("ws open")
 
+  document.getElementById("placeholder_state").innerHTML = '<div class="card-panel grey lighten-3">Nothing analyzed.</div>'
+
   ws.onmessage = (event) => {
     data = JSON.parse(event.data);
-
-    console.log('Data: ' + data)
-  }
-}
-
-function analyzeImage() {
-  // server unaviable, overwrite if not
-  document.getElementById("placeholder_state").innerHTML = '<div class="card-panel grey lighten-3">Server Unaviable!</div>'
-  document.getElementById("placeholder_img").innerHTML = ''
-
-  backendGet("http://raspi.local:8080/current_probabilities", (response) => {
-    console.log('stringifed: ' + JSON.stringify(response))
-
-    var data = response.current_probabilities
+    data = data.current_probabilities
 
     var html = '<div class="row">'
     for(var i = 0; i < data.length; i++) {
@@ -43,9 +32,12 @@ function analyzeImage() {
     }
     html += '</div>'
 
+    console.log('html: ' + html)
+
+    var d = new Date()
     if(data.length > 0){
       // connection state
-      document.getElementById("placeholder_state").innerHTML = '<div class="card-panel green lighten-3">Connected.</div>'
+      document.getElementById("placeholder_state").innerHTML = '<div class="card-panel green lighten-3">Updated on ' + formatDate(d) + '</div>'
 
       // probability list
       document.getElementById("placeholder_probabilities").innerHTML = html
@@ -54,7 +46,8 @@ function analyzeImage() {
       document.getElementById("placeholder_img").innerHTML = '<img src="http://' + backendURL + '/current_image" class="responsive-img">'
     }
 
-  })
+
+  }
 }
 
 function startRecognition(){
@@ -73,7 +66,7 @@ function startRecognition(){
 function stopRecognition(){
 
   backendPost("/stop_interval", {}, (response) => {
-    console.log(response)
+    console.log('stopped interval! ' + response)
 
     document.getElementById("stop").style.display = 'none';
     document.getElementById("start").style.display = 'inline';
@@ -99,4 +92,23 @@ function backendPost(route, payload, callback) {
     callback(JSON.parse(xhr.responseText, xhr))
   })
   xhr.send(JSON.stringify(payload))
+}
+
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  var hour = date.getHours();
+  var min = date.getMinutes();
+  var sec = date.getSeconds();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
 }
