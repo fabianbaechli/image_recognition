@@ -13,7 +13,7 @@ const imageRecognitionUrl =
 const imagePath           = "/Users/yvokeller/Desktop/img.png"
 
 let ws_connections = []
-let interval         = undefined
+let interval              = undefined
 let currentProbabilities  = undefined
 let imageRecognitionReq   =
 {
@@ -63,26 +63,30 @@ app.get("/current_image", (req, res) => {
 })
 
 app.post('/start_interval', (req, res) => {
-  interval = setInterval(() => {
-    imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
-    requestGoogleApi((response) => {
-      currentProbabilities = response
+  if (interval === undefined) {
+    interval = setInterval(() => {
+      imageRecognitionReq.requests[0].image.content = parseImage(imagePath)
+      requestGoogleApi((response) => {
+        currentProbabilities = response
 
-      ws_connections.forEach(connection => {
-        connection.websocket.send(JSON.stringify({
-          success: true,
-          current_probabilities: currentProbabilities
-        }))
+        ws_connections.forEach(connection => {
+          connection.websocket.send(JSON.stringify({
+            success: true,
+            current_probabilities: currentProbabilities
+          }))
+        })
+        console.log(currentProbabilities)
       })
-
-      console.log(currentProbabilities)
-    })
-  }, 5000)
-  res.send({ok: true})
+    }, 5000)
+    res.send({ok: true})
+  } else {
+    res.send({ok: false, error_message: "interval already running"})
+  }
 })
 
 app.post('/stop_interval', (req, res) => {
   clearInterval(interval)
+  interval = undefined
   res.send({ok: true})
 })
 
